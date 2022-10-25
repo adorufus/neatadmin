@@ -14,7 +14,9 @@ export class AuthComponent implements OnInit {
   }
 
   login() {
-    this.authService.GoogleAuth();
+    this.authService.GoogleAuth().then((val) => {
+      console.log(val);     
+    });
   }
 
 }

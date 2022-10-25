@@ -1,3 +1,16 @@
-<app-auth></app-auth>
+<div *ngIf="authGuard.isLoggedIn() == false; else dashboard">
+  <app-auth></app-auth>
+</div>
 
-<router-outlet></router-outlet>
+<ng-template #dashboard>
+  <mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sidebarOpen">
+      <app-sidenav></app-sidenav>
+    </mat-drawer>
+    <mat-drawer-content>
+      <app-header (toggleSidebarEmmit)="sidebarToggler()">
+      </app-header>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ng-template>

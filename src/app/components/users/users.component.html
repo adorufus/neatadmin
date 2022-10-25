@@ -1,0 +1,56 @@
+<div class="container-fluid page">
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-sm-left">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0 page-separator">
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0 mytext">User Lists</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pt-32pt"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-hover dataTable no-footer">
+                    <thead>
+                        <tr role="row">
+                            <th rowspan="1" colspan="1" style="width: 10rem">Title</th>
+                            <th rowspan="1" colspan="1" style="width: 5rem">Role</th>
+                            <th rowspan="1" colspan="1" style="width: 10rem">Email</th>
+                            <th style="width: 120px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="users?.length! > 0">
+                        <tr *ngFor="let userData of users">
+                            <!-- <td>
+                  <img src="{{ newsData.thumbnail }}" width="100" />
+                </td> -->
+                            <td>{{ userData.full_name }}</td>
+                            <td>{{ userData.role }}</td>
+                            <td>{{ userData.email }}</td>
+                            <td>
+                                <button mat-button style="
+                      border-radius: 5px;
+                      background-color: rgb(32, 216, 115);
+                      color: white;
+                      margin: 5px;
+                    ">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-button style="
+                      border-radius: 5px;
+                      background-color: rgb(216, 32, 32);
+                      color: white;
+                      margin: 5px;
+                    ">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
