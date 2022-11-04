@@ -27,13 +27,18 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout().then((value) => {
-      console.log(value);
-      if(value == true) {
-        this.authService.removeLoggedInData();
-        this.router.navigate(['/']);
-      }
-    })
+    if(this.authService.getLoginWith() == "google") {
+      this.authService.logout().then((value) => {
+        console.log(value);
+        if(value == true) {
+          this.authService.removeLoggedInData();
+          this.router.navigate(['/']);
+        }
+      })
+    } else {
+      this.authService.removeLoggedInData();
+      this.router.navigate(['/'])
+    }
   }
 
 }

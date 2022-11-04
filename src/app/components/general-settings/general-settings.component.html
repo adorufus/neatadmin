@@ -1,0 +1,17 @@
+<div class="container">
+    <div style="height: 1rem;">
+    </div>
+    <div mat-label>Admin Login Code</div>
+    <div style="height: .4rem;">
+    </div>
+    <mat-form-field class="form-width" appearance="outline">
+        <mat-label>Login Code</mat-label>
+        <input matInput [(ngModel)]="invitationCode" placeholder="123" />
+    </mat-form-field>
+    <div align="end">
+        <button mat-raised-button (click)="saveSettings()">Save</button>
+    </div>
+    <div style="height: 1rem;">
+    </div>
+    <mat-divider></mat-divider>
+</div>

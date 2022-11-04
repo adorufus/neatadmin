@@ -1,10 +1,7 @@
 export class Floors {
-    floorData?: FloorData
-}
-
-export class FloorData {
     floor?: number
     areas?: AreaData[]
+    id?: string
 }
 
 export class AreaData {

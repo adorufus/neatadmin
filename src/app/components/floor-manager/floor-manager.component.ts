@@ -1,8 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Floors } from 'src/app/models/floors';
+import { CreateFloorComponent } from '../dialog/create-floor/create-floor.component';
 
 @Component({
   selector: 'app-floor-manager',
@@ -15,13 +17,29 @@ export class FloorManagerComponent implements OnInit {
   displayedColumn: string[] = ["select", "floor_number", "areas"];
   selection = new SelectionModel<Floors>(true, [])
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.db.collection<Floors>("floors").valueChanges().subscribe({
       next: (floor) => {
         this.floors = new MatTableDataSource<Floors>(floor)
       }
+    })
+  }
+
+  async delete() {
+    var ref = this.db.collection("floors")
+    var selectedData = this.selection.selected
+
+    selectedData.map((value) => {
+      console.log(value.id)
+      ref.doc(value.id).delete().catch((err) => console.log(err))
+    })
+  }
+
+  createFloor() {
+    const dialogRef = this.dialog.open(CreateFloorComponent, {
+      width: '100%'
     })
   }
 
@@ -54,7 +72,7 @@ export class FloorManagerComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect': 'select'} all`
     }
 
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} ${row.floorData?.floor}`
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} ${row.floor}`
   }
 
 }

@@ -6,15 +6,52 @@ import { BROWSER_STORAGE } from '../utils/storage';
 import { Observable } from 'rxjs';
 import { UserMetadata } from 'firebase-admin/lib/auth/user-record';
 import { User } from '../models/user';
+import { Key } from 'readline';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(public afAuth: AngularFireAuth, @Inject(BROWSER_STORAGE) private storage: Storage, private db: AngularFirestore) { }
+  constructor(public afAuth: AngularFireAuth, @Inject(BROWSER_STORAGE) private storage: Storage, private db: AngularFirestore, private snackbar: MatSnackBar) { }
+
+  async UsernameAuth(username: string, password: string): Promise<boolean> {
+    var isSuccess: boolean = false
+
+    var col = this.db.collection<User>("users")
+
+    col.valueChanges().subscribe(result => {
+      for (var i = 0; i < result.length; i++) {
+
+        if (result[i].username == username) {
+          if(password == result[i].password) {
+            console.log("berhasil")
+
+            this.storage.setItem("username", result[i].full_name!)
+            this.storage.setItem("user-uid", result[i].user_id!)
+            this.storage.setItem("login-with", "username")
+
+            isSuccess = true;
+          } else {
+            isSuccess = false;
+            console.log("password salah")
+            this.snackbar.open("Password / username salah!", "okay", {
+              duration: 2000
+            })
+          }
+        } else {
+          isSuccess = false
+          // this.snackbar.open("Password / username salah!")
+        }
+      }
+    })
+
+    return true
+  }
 
   async GoogleAuth(): Promise<boolean> {
+    this.storage.setItem("login-with", "google")
     return this.AuthLogin(new GoogleAuthProvider());
   }
 
@@ -88,6 +125,10 @@ export class AuthService {
 
   public getPhotoProfile(): string {
     return this.storage.getItem("user-photo") ?? "";
+  }
+
+  public getLoginWith(): string {
+    return this.storage.getItem("login-with") ?? "";
   }
 
   public removeLoggedInData() {

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Enter The Login Code</h2>
+<mat-dialog-content>
+    <div mat-label>Login Code</div>
+    <mat-form-field class="form-width" appearance="outline">
+        <mat-label>Login Code</mat-label>
+        <input matInput [(ngModel)]="inviteCodeInput" placeholder="asdf123"/>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="send()">Send</button>
+</mat-dialog-actions>

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Add Checklist</h2>
+<mat-dialog-content>
+    <div mat-label>Checklist Name</div>
+    <mat-form-field class="form-width" appearance="outline">
+        <mat-label>Checklist Name</mat-label>
+        <input matInput [(ngModel)]="data" placeholder="Mambersihkan Tempat Sampah"/>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="data">Create</button>
+</mat-dialog-actions>

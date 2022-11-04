@@ -3,4 +3,6 @@ export class User {
     full_name?: string;
     role?: string;
     username?: string;
+    user_id?: string;
+    password?: string
 }

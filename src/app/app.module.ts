@@ -15,13 +15,17 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatIconModule} from '@angular/material/icon';
-import {MatPaginatorModule} from '@angular/material/paginator'
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatTreeModule } from '@angular/material/tree'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -35,6 +39,15 @@ import { UsersComponent } from './components/users/users.component';
 import { FloorManagerComponent } from './components/floor-manager/floor-manager.component';
 import { ProofImageComponent } from './components/proof-image/proof-image.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+import { WorkDataComponent } from './components/work-data/work-data.component';
+import { CreateFloorComponent } from './components/dialog/create-floor/create-floor.component';
+import { CreateAreaComponent } from './components/dialog/create-area/create-area.component';
+import { CreateChecklistComponent } from './components/dialog/create-checklist/create-checklist.component';
+import { FormsModule } from '@angular/forms';
+import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
+import { InviteCodeInputComponent } from './components/dialog/invite-code-input/invite-code-input.component';
+import { LoginUsernameComponent } from './components/dialog/login-username/login-username.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +58,14 @@ import { HttpClientModule } from '@angular/common/http';
     SidenavComponent,
     UsersComponent,
     FloorManagerComponent,
-    ProofImageComponent
+    ProofImageComponent,
+    WorkDataComponent,
+    CreateFloorComponent,
+    CreateAreaComponent,
+    CreateChecklistComponent,
+    GeneralSettingsComponent,
+    InviteCodeInputComponent,
+    LoginUsernameComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +76,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     MatMenuModule,
     MatIconModule,
+    MatSnackBarModule,
     MatButtonModule,
     LayoutModule,
     MatToolbarModule,
@@ -64,16 +85,20 @@ import { HttpClientModule } from '@angular/common/http';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatExpansionModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatTableModule,
     MatCheckboxModule,
     MatPaginatorModule,
+    MatProgressBarModule,
+    MatTreeModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

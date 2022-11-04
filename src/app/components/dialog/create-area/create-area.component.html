@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Add Floor</h2>
+<mat-dialog-content>
+    <div mat-label>Area Name</div>
+    <mat-form-field class="form-width" appearance="outline">
+        <mat-label>Area Name</mat-label>
+        <input matInput [(ngModel)]="areaName" placeholder="Pantry"/>
+    </mat-form-field>
+    <div mat-label>Checklists <button mat-icon-button (click)="addChecklist()"><mat-icon>add</mat-icon></button></div>
+    <mat-list *ngFor="let item of checklists">
+        <mat-list-item>{{item}}</mat-list-item>
+    </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="finishCreate()">Create</button>
+</mat-dialog-actions>
