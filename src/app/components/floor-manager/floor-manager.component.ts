@@ -1,3 +1,4 @@
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -9,13 +10,21 @@ import { CreateFloorComponent } from '../dialog/create-floor/create-floor.compon
 @Component({
   selector: 'app-floor-manager',
   templateUrl: './floor-manager.component.html',
-  styleUrls: ['./floor-manager.component.scss']
+  styleUrls: ['./floor-manager.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 
 export class FloorManagerComponent implements OnInit {
   floors?: MatTableDataSource<Floors>;
-  displayedColumn: string[] = ["select", "floor_number", "areas"];
+  displayedColumn: string[] = ["select", "floor_number", "areas", "expand"];
   selection = new SelectionModel<Floors>(true, [])
+  expandedFloor?: Floors
 
   constructor(private db: AngularFirestore, public dialog: MatDialog) { }
 

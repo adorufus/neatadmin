@@ -2,8 +2,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as FileSaver from 'file-saver';
 import * as JSZip from 'jszip';
@@ -31,6 +32,8 @@ export class WorkDataComponent implements OnInit {
   downloadedImages: ArrayBuffer[] = [];
   expandedWork?: Works
   zip =  new JSZip()
+
+  @ViewChild(MatPaginator) paginator?: MatPaginator
 
   constructor(private db: AngularFirestore, private http: HttpClient, private datePipe: DatePipe) { }
 
@@ -84,9 +87,10 @@ export class WorkDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.db.collection<Works>("work_data", ref => ref.limit(10)).valueChanges().subscribe({
+    this.db.collection<Works>("work_data", ref => ref.orderBy("work_finished_time", "desc")).valueChanges().subscribe({
       next: (works) => {
         this.works = new MatTableDataSource<Works>(works)
+        this.works.paginator = this.paginator ?? null
       }
     })
   }

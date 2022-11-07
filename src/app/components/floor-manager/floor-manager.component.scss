@@ -21,3 +21,25 @@
     border-right: 1px solid #595959;
     padding-left: 1rem;
 }
+
+
+tr.detail-row {
+    height: 0;
+}
+
+tr.work-row:not(.expanded-row):hover {
+    background: rgb(105, 105, 105);
+}
+
+tr.work-row:not(.expanded-row):active {
+    background: #424242;
+}
+
+work-row td {
+    border-bottom-width: 0;
+}
+
+.work-detail {
+    overflow: hidden;
+    display: flex;
+}

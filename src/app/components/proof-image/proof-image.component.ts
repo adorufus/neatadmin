@@ -1,13 +1,14 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection, DocumentData } from '@angular/fire/compat/firestore';
 import { MatTableDataSource } from '@angular/material/table';
 import { Proofs } from 'src/app/models/proofs';
 import * as FileSaver from 'file-saver'
 import * as JSZip from 'jszip';
-import { Timestamp } from '@angular/fire/firestore';
+import { CollectionReference, Query, Timestamp } from '@angular/fire/firestore';
 import { DatePipe } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-proof-image',
@@ -21,6 +22,13 @@ export class ProofImageComponent implements OnInit {
   selection = new SelectionModel<Proofs>(true, [])
   downloadedImages: ArrayBuffer[] = [];
   zip =  new JSZip()
+
+  resultsLength = 0;
+  pageSize = 5;
+  isLoadingResults = true;
+  isRateLimitReached = false;
+
+  @ViewChild(MatPaginator) paginator?: MatPaginator 
 
   constructor(private db: AngularFirestore, private http: HttpClient, private datePipe: DatePipe) { }
 
@@ -36,7 +44,7 @@ export class ProofImageComponent implements OnInit {
   filePromise = () => new Promise( (resolve) => {
     var selectedItem = this.selection.selected
 
-    selectedItem.map((value) => {
+    selectedItem.map( async (value) => {
       this.http.get(value.image_url, {
         responseType: 'blob',
       }).subscribe({
@@ -51,7 +59,7 @@ export class ProofImageComponent implements OnInit {
       })
     })
 
-    setTimeout(() => resolve("test"), 1000)
+    setTimeout(() => resolve("test") , 1000)
   })
 
   batchDownload() {
@@ -64,10 +72,10 @@ export class ProofImageComponent implements OnInit {
 
   private async createZip() {
     
-    await this.filePromise().then(() => {
-      this.zip.generateAsync({type: "blob"}).then( (blob) => {
-        FileSaver.saveAs(blob, this.datePipe.transform(Date.now(), 'EEEE, MMMM d, y hh:mm:ss a') + '.zip')
-      })
+    await this.filePromise()
+
+    this.zip.generateAsync({type: "blob"}).then( (blob) => {
+      FileSaver.saveAs(blob, this.datePipe.transform(Date.now(), 'dd-MM-yyyy | hh:mm:ss a') + '.zip')
     })
   }
 
@@ -78,9 +86,17 @@ export class ProofImageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.db.collection<Proofs>("task_data", ref => ref.limit(10)).valueChanges().subscribe({
+    this.db.collection<Proofs>("task_data", ref => {
+      let query : firebase.default.firestore.Query = ref
+      query = query.orderBy("created", "desc")
+
+      return query
+    }).valueChanges().subscribe({
       next: (proofs) => {
         this.proofs = new MatTableDataSource<Proofs>(proofs)
+        this.resultsLength = proofs.length
+
+        this.proofs!.paginator = this.paginator ?? null
       }
     })
   }
