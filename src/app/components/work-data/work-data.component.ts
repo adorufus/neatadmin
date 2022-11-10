@@ -4,12 +4,14 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as FileSaver from 'file-saver';
 import * as JSZip from 'jszip';
 import { Proofs } from 'src/app/models/proofs';
 import { Works } from 'src/app/models/works';
+import { ProofImageDialogComponent } from '../dialog/proof-image/proof-image-dialog.component';
 
 @Component({
   selector: 'app-work-data',
@@ -35,7 +37,7 @@ export class WorkDataComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator?: MatPaginator
 
-  constructor(private db: AngularFirestore, private http: HttpClient, private datePipe: DatePipe) { }
+  constructor(private db: AngularFirestore, private http: HttpClient, private datePipe: DatePipe, private dialog: MatDialog) { }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -92,6 +94,15 @@ export class WorkDataComponent implements OnInit {
         this.works = new MatTableDataSource<Works>(works)
         this.works.paginator = this.paginator ?? null
       }
+    })
+  }
+
+  openProofImage(data: string[]) {
+    var dialogRef = this.dialog.open(ProofImageDialogComponent, {
+      data: {
+        images: data,
+      },
+      width: "100%",
     })
   }
 

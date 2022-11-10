@@ -48,6 +48,8 @@ import { FormsModule } from '@angular/forms';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { InviteCodeInputComponent } from './components/dialog/invite-code-input/invite-code-input.component';
 import { LoginUsernameComponent } from './components/dialog/login-username/login-username.component';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { ProofImageDialogComponent } from './components/dialog/proof-image/proof-image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,8 @@ import { LoginUsernameComponent } from './components/dialog/login-username/login
     CreateChecklistComponent,
     GeneralSettingsComponent,
     InviteCodeInputComponent,
-    LoginUsernameComponent
+    LoginUsernameComponent,
+    ProofImageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +101,7 @@ import { LoginUsernameComponent } from './components/dialog/login-username/login
     AngularFireAuthModule,
     AngularFirestoreModule
   ],
-  providers: [AuthGuard, DatePipe],
+  providers: [AuthGuard, DatePipe, NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

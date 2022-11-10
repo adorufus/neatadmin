@@ -3,7 +3,7 @@
     <div mat-label>Floor Number</div>
     <mat-form-field class="form-width" appearance="outline">
         <mat-label>Floor Number</mat-label>
-        <input matInput [(ngModel)]="floor" placeholder="123"/>
+        <input matInput type="number" [(ngModel)]="floor" placeholder="123"/>
     </mat-form-field>
     <div mat-label>Area <button mat-icon-button (click)="addArea()"><mat-icon>add</mat-icon></button></div>
     <mat-accordion *ngFor="let areaData of areas">

@@ -10,6 +10,7 @@ export class WorkData {
     pic?: string
     work_finished_time?: Timestamp
     work_start_time?: Timestamp
+    proof_image?: string[]
 }
 
 export class AreaDetail {

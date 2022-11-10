@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Image Proofs</h2>
+
+<mat-dialog-content>
+    <mat-grid-list cols="5" rowHeight="1:1" gutterSize="15">
+        <mat-grid-tile *ngFor="let item of this.data['images']">
+            <img [src]="item" width="100%">
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-dialog-content>

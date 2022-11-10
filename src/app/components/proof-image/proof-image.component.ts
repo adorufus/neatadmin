@@ -9,6 +9,7 @@ import * as JSZip from 'jszip';
 import { CollectionReference, Query, Timestamp } from '@angular/fire/firestore';
 import { DatePipe } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-proof-image',
@@ -30,7 +31,7 @@ export class ProofImageComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator?: MatPaginator 
 
-  constructor(private db: AngularFirestore, private http: HttpClient, private datePipe: DatePipe) { }
+  constructor(private db: AngularFirestore, private http: HttpClient, private datePipe: DatePipe, private imageCompress: NgxImageCompressService) { }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -92,9 +93,11 @@ export class ProofImageComponent implements OnInit {
 
       return query
     }).valueChanges().subscribe({
-      next: (proofs) => {
+      next: async (proofs) => {
         this.proofs = new MatTableDataSource<Proofs>(proofs)
         this.resultsLength = proofs.length
+
+        // this.compressImage(this.proofs.data[0].image_url)
 
         this.proofs!.paginator = this.paginator ?? null
       }
@@ -124,6 +127,14 @@ export class ProofImageComponent implements OnInit {
     }
 
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} ${row.task_name}`
+  }
+
+  compressImage(file: string) {
+    this.imageCompress.compressFile(file, 0, 50, 50).then(
+      result => {
+        console.log(result)
+      }
+    )
   }
 
 }
