@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Add Tasks</h2>
+<mat-dialog-content>
+  <div mat-label>Please fill the provided form</div>
+  <mat-form-field *ngFor="let task of tasks; let i = index; trackBy:trackByIndex" class="form-width" appearance="outline">
+    <mat-label>Task Name</mat-label>
+
+    <input style="width: 100%" matInput  type="text" [(ngModel)]="tasks[i]" (keydown.enter)="onInputEnter($event)" placeholder="Ruang bermain"/>
+
+    <mat-icon matSuffix>subdirectory_arrow_left</mat-icon>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="finishCreate()">Create</button>
+</mat-dialog-actions>

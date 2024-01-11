@@ -50,6 +50,7 @@ import { InviteCodeInputComponent } from './components/dialog/invite-code-input/
 import { LoginUsernameComponent } from './components/dialog/login-username/login-username.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ProofImageDialogComponent } from './components/dialog/proof-image/proof-image-dialog.component';
+import { AddNewTaskComponent } from './components/dialog/add-new-task/add-new-task.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ProofImageDialogComponent } from './components/dialog/proof-image/proof
     GeneralSettingsComponent,
     InviteCodeInputComponent,
     LoginUsernameComponent,
-    ProofImageDialogComponent
+    ProofImageDialogComponent,
+    AddNewTaskComponent
   ],
   imports: [
     BrowserModule,

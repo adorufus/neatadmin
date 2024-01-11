@@ -6,12 +6,17 @@
     padding-bottom: 16px;
 }
 
+.button {
+  font-size: 12px;
+  padding: 0px;
+}
+
 .button + .button {
     margin-left: 8px;
 }
 
 .mat-header-cell {
-    vertical-align: middle; 
+    vertical-align: middle;
     border-right: 1px solid #595959;
     padding-left: 1rem
 }

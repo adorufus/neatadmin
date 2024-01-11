@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Floors } from 'src/app/models/floors';
 import { CreateFloorComponent } from '../dialog/create-floor/create-floor.component';
+import {AddNewTaskComponent} from "../dialog/add-new-task/add-new-task.component";
+import {CreateAreaComponent} from "../dialog/create-area/create-area.component";
 
 @Component({
   selector: 'app-floor-manager',
@@ -31,6 +33,7 @@ export class FloorManagerComponent implements OnInit {
   ngOnInit(): void {
     this.db.collection<Floors>("floors").valueChanges().subscribe({
       next: (floor) => {
+        console.log(floor);
         this.floors = new MatTableDataSource<Floors>(floor)
       }
     })
@@ -43,6 +46,25 @@ export class FloorManagerComponent implements OnInit {
     selectedData.map((value) => {
       console.log(value.id)
       ref.doc(value.id).delete().catch((err) => console.log(err))
+    })
+  }
+
+  addNewTask(areaIndex: number, floorId: number) {
+    const dialogRef = this.dialog.open(AddNewTaskComponent, {
+      width: '100%',
+      data: {
+        areaIndex: areaIndex,
+        floorId: floorId
+      }
+    })
+  }
+
+  createArea(floorId: number) {
+    const dialogRef = this.dialog.open(CreateAreaComponent, {
+      width: '100%',
+      data: {
+        floorId: floorId
+      }
     })
   }
 

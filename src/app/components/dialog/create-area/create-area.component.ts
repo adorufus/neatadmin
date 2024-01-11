@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateChecklistComponent } from '../create-checklist/create-checklist.component';
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {arrayUnion} from "@angular/fire/firestore";
 
 class AreaData {
   name?: string
@@ -17,7 +19,7 @@ export class CreateAreaComponent implements OnInit {
   areaName: string = "";
   checklists: string[] = []
 
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<CreateAreaComponent>, @Inject(MAT_DIALOG_DATA) public data: AreaData) { }
+  constructor(private db: AngularFirestore, public dialog: MatDialog, public dialogRef: MatDialogRef<CreateAreaComponent>, @Inject(MAT_DIALOG_DATA) public data: AreaData, @Inject(MAT_DIALOG_DATA) private floorData: any) { }
 
   addChecklist() {
     var dialogRef = this.dialog.open(CreateChecklistComponent)
@@ -32,9 +34,32 @@ export class CreateAreaComponent implements OnInit {
     })
   }
 
+  createArea() {
+    let floorRef = this.db.collection('floors').doc(this.floorData.floorId)
+
+    try {
+      floorRef.set({
+        areas: arrayUnion({
+          name: this.areaName, checklists: this.checklists
+        })
+      }, {merge: true}).then((_) => {
+        console.log('ssdfs')
+      })
+    } catch (e) {
+      console.log(`error: ${e}`)
+    }
+  }
+
   finishCreate(): any {
-    if (this.areaName != "" && this.checklists.length > 0) {
-      return {name: this.areaName, checklists: this.checklists}
+    if(this.floorData != undefined) {
+      if (this.areaName != "" && this.checklists.length > 0) {
+        this.createArea()
+        return undefined;
+      }
+    } else {
+      if (this.areaName != "" && this.checklists.length > 0) {
+        return {name: this.areaName, checklists: this.checklists}
+      }
     }
   }
 
