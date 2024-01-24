@@ -3,14 +3,22 @@
     <div mat-label>Area Name</div>
     <mat-form-field class="form-width" appearance="outline">
         <mat-label>Area Name</mat-label>
-        <input matInput [(ngModel)]="areaName" placeholder="Pantry"/>
+        <input matInput [(ngModel)]="areaName" name="areaname-form" placeholder="Pantry" />
     </mat-form-field>
-    <div mat-label>Checklists <button mat-icon-button (click)="addChecklist()"><mat-icon>add</mat-icon></button></div>
-    <mat-list *ngFor="let item of checklists">
-        <mat-list-item>{{item}}</mat-list-item>
-    </mat-list>
+    <div mat-label>Checklists <button mat-icon-button (click)="addChecklistForm()"><mat-icon>add</mat-icon></button>
+    </div>
+    <form style="margin-top: 2rem;">
+        <mat-list *ngFor="let item of checklists; index as i; trackBy:trackByIndex">
+            <mat-list-item style="margin-bottom: 1rem;">
+                <mat-form-field class="form-width" appearance="outline">
+                    <input matInput type="text" [name]="'form-'+i"
+                    [(ngModel)]="checklists[i]" placeholder="Checklist name" />
+                </mat-form-field>
+            </mat-list-item>
+        </mat-list>
+    </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="finishCreate()">Create</button>
+    <button mat-button (click)="finishCreate()" [mat-dialog-close]="">Create</button>
 </mat-dialog-actions>

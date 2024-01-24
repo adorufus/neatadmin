@@ -34,7 +34,18 @@ export class CreateAreaComponent implements OnInit {
     })
   }
 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  addChecklistForm() {
+    console.log(this.checklists)
+    this.checklists.push("")
+  }
+
   createArea() {
+
+    console.log('creating area ....')
     let floorRef = this.db.collection('floors').doc(this.floorData.floorId)
 
     try {
@@ -51,15 +62,20 @@ export class CreateAreaComponent implements OnInit {
   }
 
   finishCreate(): any {
-    if(this.floorData != undefined) {
-      if (this.areaName != "" && this.checklists.length > 0) {
-        this.createArea()
-        return undefined;
+    console.log(this.floorData)
+    try {
+      if(this.floorData != undefined) {
+        if (this.areaName != "" && this.checklists.length > 0) {
+          this.createArea()
+          return undefined;
+        }
+      } else {
+        if (this.areaName != "" && this.checklists.length > 0) {
+          return {name: this.areaName, checklists: this.checklists}
+        }
       }
-    } else {
-      if (this.areaName != "" && this.checklists.length > 0) {
-        return {name: this.areaName, checklists: this.checklists}
-      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
