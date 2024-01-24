@@ -20,5 +20,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="finishCreate()" [mat-dialog-close]="">Create</button>
+    <button mat-button (click)="finishCreate()" [mat-dialog-close]="floorData != undefined ? undefined : finishCreate()">Create</button>
 </mat-dialog-actions>

@@ -19,7 +19,7 @@ export class CreateAreaComponent implements OnInit {
   areaName: string = "";
   checklists: string[] = []
 
-  constructor(private db: AngularFirestore, public dialog: MatDialog, public dialogRef: MatDialogRef<CreateAreaComponent>, @Inject(MAT_DIALOG_DATA) public data: AreaData, @Inject(MAT_DIALOG_DATA) private floorData: any) { }
+  constructor(private db: AngularFirestore, public dialog: MatDialog, public dialogRef: MatDialogRef<CreateAreaComponent>, @Inject(MAT_DIALOG_DATA) public data: AreaData, @Inject(MAT_DIALOG_DATA) public floorData: any) { }
 
   addChecklist() {
     var dialogRef = this.dialog.open(CreateChecklistComponent)
