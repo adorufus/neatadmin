@@ -1,0 +1,12 @@
+
+<h2 mat-dialog-title>Help</h2>
+<mat-dialog-content>
+    <div *ngFor="let item of helpItems">
+        <img style="height: 50%; margin-bottom: 2rem; width: 50%;" [src]="item['imgUrl']">
+        <p style="margin-bottom: 2rem; font-size: 14pt;">{{item['desc']}}</p>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Paham</button>
+</mat-dialog-actions>

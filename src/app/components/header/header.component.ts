@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { HelpDialogComponent } from '../dialog/help-dialog/help-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,7 @@ export class HeaderComponent implements OnInit {
   username: string = "";
   photoUrl: string = "";
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.username = this.authService.getUsername();
@@ -39,6 +41,12 @@ export class HeaderComponent implements OnInit {
       this.authService.removeLoggedInData();
       this.router.navigate(['/'])
     }
+  }
+
+  showHelpDialog() {
+    this.dialog.open(HelpDialogComponent, {
+      width: '100%',
+    })
   }
 
 }
